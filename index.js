@@ -82,7 +82,7 @@ async function run() {
     // doctors
 
     app.get("/doctors", async (req, res) => {
-      const result= await ;
+      const result = await doctorsCollections.find();
     });
 
     console.log("Connected to MongoDB!");
