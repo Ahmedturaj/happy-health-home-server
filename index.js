@@ -14,10 +14,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// MongoDB connection
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.nzlapl6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -35,13 +33,11 @@ async function run() {
       .db("happyHealthHome")
       .collection("doctors");
 
-    // Basic get route for all medicines
     app.get("/medicine", async (req, res) => {
       const result = await medicineCollections.find().toArray();
       res.send(result);
     });
 
-    // Route with pagination, sorting, and searching
     app.get("/medicines", async (req, res) => {
       const {
         page = 1,
@@ -52,12 +48,10 @@ async function run() {
       } = req.query;
 
       try {
-        // Build the search query
         const query = {
-          medicineName: { $regex: search, $options: "i" }, // Case-insensitive search
+          medicineName: { $regex: search, $options: "i" },
         };
 
-        // Fetch the medicines from the database with sorting and pagination
         const medicines = await medicineCollections
           .find(query)
           .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
@@ -65,10 +59,8 @@ async function run() {
           .limit(parseInt(limit))
           .toArray();
 
-        // Get the total count of matching documents
         const total = await medicineCollections.countDocuments(query);
 
-        // Send the response with medicines and pagination info
         res.json({
           medicines,
           totalPages: Math.ceil(total / limit),
@@ -79,26 +71,21 @@ async function run() {
       }
     });
 
-    // doctors
-
     app.get("/doctors", async (req, res) => {
-      const result = await doctorsCollections.find();
+      const result = await doctorsCollections.find().toArray();
+      res.send(result);
     });
 
     console.log("Connected to MongoDB!");
   } finally {
-    // You can close the client connection if needed
-    // await client.close();
   }
 }
 run().catch(console.dir);
 
-// Basic route to check server status
 app.get("/", (req, res) => {
   res.send("This is Job Task from SCIC");
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
