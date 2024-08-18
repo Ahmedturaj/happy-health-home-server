@@ -31,6 +31,9 @@ async function run() {
     const medicineCollections = client
       .db("happyHealthHome")
       .collection("medicine");
+    const doctorsCollections = client
+      .db("happyHealthHome")
+      .collection("doctors");
 
     // Basic get route for all medicines
     app.get("/medicine", async (req, res) => {
@@ -79,7 +82,7 @@ async function run() {
     // doctors
 
     app.get("/doctors", async (req, res) => {
-      const result= ;
+      const result= await ;
     });
 
     console.log("Connected to MongoDB!");
