@@ -76,6 +76,10 @@ async function run() {
       }
     });
 
+    // doctors
+
+    app.get("/doctors", async (req, res) => {});
+
     console.log("Connected to MongoDB!");
   } finally {
     // You can close the client connection if needed
