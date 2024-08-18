@@ -27,18 +27,21 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
+    // all Collections
     const medicineCollections = client
       .db("happyHealthHome")
       .collection("medicine");
     const doctorsCollections = client
       .db("happyHealthHome")
       .collection("doctors");
+    // Collections End
 
+    // added medicine
     app.get("/medicine", async (req, res) => {
       const result = await medicineCollections.find().toArray();
       res.send(result);
     });
-
+    // added medicine with sorting
     app.get("/medicines", async (req, res) => {
       const {
         page = 1,
@@ -71,7 +74,7 @@ async function run() {
         res.status(500).json({ error: "Something went wrong" });
       }
     });
-
+    // add doctors path
     app.get("/doctors", async (req, res) => {
       const result = await doctorsCollections.find().toArray();
       res.send(result);
