@@ -78,7 +78,9 @@ async function run() {
 
     // doctors
 
-    app.get("/doctors", async (req, res) => {});
+    app.get("/doctors", async (req, res) => {
+      const result= ;
+    });
 
     console.log("Connected to MongoDB!");
   } finally {
